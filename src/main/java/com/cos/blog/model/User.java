@@ -10,9 +10,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 // 테이블 화 시키기 위해 @Entity라는 어노테이션을 붙인다.
 // boot 실행 시 User클래스를 읽어서 자동으로 MYSQL에 테이블이 생성된다.
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
 //	@Id = primary Key선언
 //	@GenerateValue 는 일반적으로, PRIMARY 키의 기본값을 자동으로 생성할때 사용한다.
