@@ -11,7 +11,7 @@ public class TempControllerTest {
 		System.out.println("tempHome()");
 		// 파일리턴 기본경로 : src/main/resources/static
 		// 리턴명에 /를 붙여줘야 함. (아닐 경우 src/main/resources/statichome.html이 된다.)
-		return "/home.html";
+		return "/test";
 	}
 	
 	@GetMapping("/temp/img")

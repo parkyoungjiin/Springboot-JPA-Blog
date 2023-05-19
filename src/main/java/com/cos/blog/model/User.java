@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class User {
 //	@Id = primary Key선언
 //	@GenerateValue 는 일반적으로, PRIMARY 키의 기본값을 자동으로 생성할때 사용한다.
-
+  
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // PK값을 해당 DB의 넘버링 전략을 따라간다.(오라클 -> 시퀀스, MYSQL -> Auto Increment)
 	private int id; // auto Increment
