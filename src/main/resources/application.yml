@@ -2,6 +2,10 @@ server:
   port: 8000
   servlet:
     context-path: /blog
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
     
 spring:
   mvc:
@@ -10,16 +14,21 @@ spring:
       suffix: .jsp
       
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
-
+    
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
-    generate-ddl: true
+    open-in-view: true
     hibernate:
       ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-    
-  devtools:
-    add-properties: false
+    properties:
+      "[hibernate.format_sql]": true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
