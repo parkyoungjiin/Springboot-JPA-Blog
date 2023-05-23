@@ -33,7 +33,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // PK값을 해당 DB의 넘버링 전략을 따라간다.(오라클 -> 시퀀스, MYSQL -> Auto Increment)
 	private int id; // auto Increment
 	
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false, length = 30, unique = true)
 	private String username; // 아이디
 	
 	@Column(nullable = false, length = 100) 

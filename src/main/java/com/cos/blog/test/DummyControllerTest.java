@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +40,7 @@ public class DummyControllerTest {
 	private UserRepository userRepository;
 
 	
-	// 수정(Put) : email, password만 수정.
+	// -----------수정(Put) : email, password만 수정.--------------
 	@PutMapping("/dummy/user/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {
 		System.out.println("id : " + id);
@@ -60,9 +62,19 @@ public class DummyControllerTest {
 //		userRepository.save(user);
 		//update 시에는 save를 잘 사용하지 않는다.
 		//id가 있을 경우 null인 컬럼은 Null로 변해버린다.
-		return null;
+		return user;
 	}
 	
+	//--------------삭제()---------------
+	@DeleteMapping("/dummy/user/{id}")
+	public String delete(@PathVariable int id) {
+		try {
+			userRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			return "삭제 실패하였습니다. 해당 id는 DB에 존재하지 않습니다."; 
+		}
+		return "삭제되었습니다. id : " + id;
+	}
 	// {id} 주소로 파라미터를 전달 받을 수 있음.
 	// http://localhost:8000/blog/dummy/user/3
 	// 전체 유저 조회 ( findAll() )
