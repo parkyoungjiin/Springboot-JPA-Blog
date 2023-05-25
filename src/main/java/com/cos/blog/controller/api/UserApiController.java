@@ -11,16 +11,33 @@ import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 public class UserApiController {
 	@Autowired
 	private UserService userService;
 	
+	//회원가입 작업
 	@PostMapping("/api/user")
 	public ResponseDto<Integer> save(@RequestBody User user){
 		System.out.println("UserApiController : save 호출됨.");
 		user.setRole(RoleType.USER);
 		int result = userService.회원가입(user);//실제로 DB에 insert하고, 아래 return 하면 된다.
+		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+	}
+	
+	
+	// 로그인 작업
+	@PostMapping("/api/user/login")
+	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
+		System.out.println("UserApiController : login 호출됨.");
+		User principal = userService.로그인(user); //principal : 접근 주체
+		
+		if(principal != null) {
+			//세션 저장
+			session.setAttribute("principal", principal);
+		}
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
 }
