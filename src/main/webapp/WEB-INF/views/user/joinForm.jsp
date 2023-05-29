@@ -26,7 +26,7 @@
 	<button id="btn-save" class="btn btn-primary">회원가입</button>
 </div>
 
-<script src="/blog/js/user.js">
+<script src="/js/user.js">
 
 </script>
 <!-- 푸터 -->

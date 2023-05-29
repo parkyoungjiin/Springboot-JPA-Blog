@@ -15,8 +15,11 @@ import com.cos.blog.model.User;
 //Delete
 //Count
 public interface UserRepository extends JpaRepository<User, Integer>{
-	//JPA Naming 전략
-	// 테이블 findBy => SELECT * FROM user WHERE username =?(1번째 파라미터), password =?(2번째 파라미터);
-	User findByUsernameAndPassword(String username, String password);
+	
 	
 }
+
+//JPA Naming 전략
+//// 테이블 findBy => SELECT * FROM user WHERE username =?(1번째 파라미터), password =?(2번째 파라미터);
+// 로그인 로직 ( 시큐리티 사용 전)
+//User findByUsernameAndPassword(String username, String password);
