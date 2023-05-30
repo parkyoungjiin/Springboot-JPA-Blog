@@ -1,5 +1,7 @@
 package com.cos.blog.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cos.blog.model.User;
@@ -15,7 +17,8 @@ import com.cos.blog.model.User;
 //Delete
 //Count
 public interface UserRepository extends JpaRepository<User, Integer>{
-	
+	// Select * from user where username = ?
+	Optional<User> findByUsername(String username);
 	
 }
 
