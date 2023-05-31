@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.blog.model.Board;
 import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
+import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -38,6 +40,9 @@ public class DummyControllerTest {
 	
 	@Autowired // 의존성 주입(DI) 
 	private UserRepository userRepository;
+	
+	@Autowired
+	private BoardRepository boardRepository;
 
 	
 	// -----------수정(Put) : email, password만 수정.--------------
@@ -87,10 +92,18 @@ public class DummyControllerTest {
 	// 페이징 처리(한 페이지당 2건을 리턴)
 	@GetMapping("/dummy/user")
 	public Page<User> pageList(@PageableDefault(size = 1, sort="id", direction=Sort.Direction.DESC) Pageable pageable){
-		Page<User> users = userRepository.findAll(pageable);
-		return users;
+		Page<User> pagingUsers = userRepository.findAll(pageable);
+		List<User> users = pagingUsers.getContent();
+		return pagingUsers;
 	}
 	
+	@GetMapping("/dummy/board")
+	public Page<Board> test(@PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<Board> testPage = boardRepository.findAll(pageable);
+//		List<Board> boardTest = testPage.getContent();
+
+		return testPage;
+	}
 	
 	@GetMapping("/dummy/user/{id}")
 	public User detail(@PathVariable int id) {

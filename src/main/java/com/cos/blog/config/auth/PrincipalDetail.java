@@ -8,13 +8,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cos.blog.model.User;
 
+import lombok.Getter;
+
 // PrincipalDetail : 유저 정보를 담는 클래스(+ DB에 있는 값을 저장함.)
 
 // 1. UserDetails 를 implements 
 // 2. **userDetails로만 저장할 수 있기에**, user를 compostion 한다.
 // 3. override를 통해 메서드를 구현함. 
 // - username, password, 계정만료여부, 계정잠김여부, 비밀번호 만료여부, 계정활성화 여부, 계정권한 여부
-
+@Getter
 public class PrincipalDetail implements UserDetails {
 	private User user; // 콤포지션 (클래스를 품고 있음.)
 	

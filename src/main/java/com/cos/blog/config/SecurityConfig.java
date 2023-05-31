@@ -37,7 +37,7 @@ public class SecurityConfig{
 	
 	// 인증없이 접근할 수 있는 리스트를 배열로 저장함. (화이트리스트)
     private static final String[] AUTH_WHITELIST = {
-            "/", "/auth/**", "/js/**", "/css/**", "/image/**"
+            "/", "/auth/**", "/js/**", "/css/**", "/image/**", "/dummy/**"
     };
     
     @Bean
