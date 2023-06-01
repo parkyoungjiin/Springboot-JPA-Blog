@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +33,22 @@ public class BoardApiController {
 		System.out.println("UserApiController : save 호출됨.");
 		boardService.글쓰기(board, principal.getUser());
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+	}
+	
+	//글삭제 작업
+	@DeleteMapping("/api/board/{id}")
+	public ResponseDto<Integer> deleteById(@PathVariable int id){
+		boardService.삭제하기(id);
+		return new ResponseDto<Integer>(HttpStatus.OK, 1);  // 리턴값 1 : 정상
+
+	}
+	
+	//글 수정 작업 (메서드가 다르기에 주소창이 같아도 상관없음)
+	@PutMapping("/api/board/{id}")
+	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
+		boardService.글수정하기(id, board);
+		return new ResponseDto<Integer>(HttpStatus.OK, 1);  // 리턴값 1 : 정상
+		
 	}
 	
 	
