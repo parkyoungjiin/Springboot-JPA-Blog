@@ -21,9 +21,7 @@ public class UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
+
 	
 	@Transactional
 	public int 회원가입(User user) {
