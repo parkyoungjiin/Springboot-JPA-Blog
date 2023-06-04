@@ -47,7 +47,7 @@ public class UserApiController {
 		userService.회원수정(user);
 		//수정이 됐을 때 세션값은 변경되지 않은 상태이기에 직접 세션값을 변경해줘야 함.
 		
-		//세션 등록 (authentication객체를 생성함.)
+		//세션 등록 (authentication객체를 생성함.) - 로그인 처리
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);

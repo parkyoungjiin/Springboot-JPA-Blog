@@ -30,6 +30,7 @@ public class UserService {
 			user.setRole(RoleType.USER);
 			// 패스워드 암호화
 			user.setPassword(encoder.encode(user.getPassword()));
+			// 회원가입 진행
 			userRepository.save(user);
 			return 1;
 		} catch (Exception e) {
@@ -46,6 +47,15 @@ public class UserService {
 					return new IllegalArgumentException("유저정보를 찾을 수 없습니다. id :" + id);
 				});
 	}
+	
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		// null일 때 빈객체 리턴, 있으면 user 리턴
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+		return user; 
+	}
 //	-- 시큐리티 사용 전 방식임 -- 
 //	@Transactional(readOnly = true) //select시 트랜잭션 시작, 서비스 종료 시 트랜잭션 종료까지 정합성을 유지해준다. = 같은 데이터가 조회될 수 있도록 한다.
 //	public User 로그인(User user) {
@@ -60,12 +70,17 @@ public class UserService {
 			return new IllegalArgumentException("회원찾기 실패");
 		});
 		
-		String rawPassword = user.getPassword();
-		// 암호화
-		String encPassword = encoder.encode(rawPassword);
-		// 암호화 된 값으로 변경.
-		persistance.setPassword(encPassword);
-		persistance.setEmail(user.getEmail());
+		// Vailate 체크
+		// oauth 컬럼이 비어있는 경우 => 일반 회원가입자(카카오 로그인 X)인 회원들만 비밀번호와 이메일 수정가능.
+		// => 카카오 회원의 경우는 수정 불가능.
+		if(persistance.getOauth() == null && persistance.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			// 암호화
+			String encPassword = encoder.encode(rawPassword);
+			// 암호화 된 값으로 변경.
+			persistance.setPassword(encPassword);
+			persistance.setEmail(user.getEmail());
+		}
 		
 		
 		

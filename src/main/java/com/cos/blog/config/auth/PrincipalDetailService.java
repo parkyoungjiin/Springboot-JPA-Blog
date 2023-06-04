@@ -22,11 +22,13 @@ public class PrincipalDetailService implements UserDetailsService {
 		
 		// select를 통해서 username에 맞는 유저 정보를 principal(User객체)에 저장한다.
 		// 만약 없다면(orElseThrow) 해당 사용자를 찾을 수 없다는 처리를 함.
-		System.out.println("여기다." + username);
+		System.out.println("PrincipalDetailService의 loadUserByUsername메서드." + username);
+		System.out.println("회원찾기");
 		User principal = userRepository.findByUsername(username)
 				.orElseThrow(()->{
 					return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. : " + username);
 				});
+		System.out.println("principal 존재여부 파악: " + principal.toString());
 		return new PrincipalDetail(principal); // 시큐리티의 세션에 유저 정보가 저장된다.(생성자를 PrincipalDetail에 만들어주면서 User객체에 저장해준다.)
 	}
 	
