@@ -41,6 +41,8 @@ public class BoardController {
 	@GetMapping("/board/{id}")
 	public String findById(@PathVariable int id, Model model) {
 		model.addAttribute("board", boardService.글상세보기(id));
+		//상세보기를 할 때 댓글도 같이 불러와야 함.
+		
 		return "board/detail";
 	}
 	
