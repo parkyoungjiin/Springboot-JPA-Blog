@@ -9,11 +9,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
 import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
+import com.cos.blog.repository.UserRepository;
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
 
@@ -25,6 +27,9 @@ public class BoardService {
 	
 	@Autowired
 	private ReplyRepository replyRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -71,16 +76,27 @@ public class BoardService {
 	// 댓글 작성
 	// 파라미터 : reply(content, userId, boardId)
 	@Transactional
-	public void 댓글쓰기(User user, int boardId, Reply requestReply) {
-		//boardId 만 존재하기에, repository의 findById 메서드를 통해 Board 객체를 생성하여 reply에 board 형태로 저장.
-		Board board = boardRepository.findById(boardId).orElseThrow(()->{
-			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 id 찾을 수 없습니다 (id : " + boardId + ")");
-		});
-		
-		requestReply.setUser(user);
-		requestReply.setBoard(board);
-		
-		
-		replyRepository.save(requestReply);
+	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
+		//natvie query 적용
+		int result = replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
+		System.out.println("댓글쓰기 : " + result);
+		// --------native query 작성 전---------
+//		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(()->{
+//			return new IllegalArgumentException("댓글 쓰기 실패 : 회원 id 찾을 수 없습니다 (id : " + replySaveRequestDto.getUserId() + ")");
+//		}); //영속화 완료
+//		
+//		//boardId 만 존재하기에, repository의 findById 메서드를 통해 Board 객체를 생성하여 reply에 board 형태로 저장.
+//		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
+//			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 id 찾을 수 없습니다 (id : " + replySaveRequestDto.getBoardId() + ")");
+//		}); //영속화 완료
+//		
+//		Reply reply = Reply.builder()
+//				.user(user)
+//				.board(board)
+//				.content(replySaveRequestDto.getContent())
+//				.build();
+//		
+//		
+//		replyRepository.save(reply);
 	}
 }

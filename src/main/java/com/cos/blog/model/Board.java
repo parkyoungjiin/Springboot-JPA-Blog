@@ -55,7 +55,7 @@ public class Board {
 	
 	@OneToMany(mappedBy = "board",fetch = FetchType.EAGER) // JoinColumn 필요 X : Board에는 FK가 필요없음.
 	@JsonIgnoreProperties({"board"})
-	@OrderBy("id asc")
+	@OrderBy("id desc")
 	//OneToMany는 select할 때 reply도 Join을 해야 한다는 의미로 작성함.
 	//mappedBy는 연관관계의 주인이 아니다. (FK가 아니기에, 컬럼을 만들지말라는 의미다.)
 	private List<Reply> reply;

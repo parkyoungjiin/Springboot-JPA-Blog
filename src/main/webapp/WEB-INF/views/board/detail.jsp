@@ -28,6 +28,7 @@
 		<form action="">
 		<!-- 답글 작성 시 게시글 번호, 내용이 필요하기에 hidden으로 boardId를 넘긴다. -->
 			<input type="hidden" id="boardId" value="${board.id }">
+			<input type="hidden" id="userId" value="${principal.user.id }">
 			<div class="card-body">
 				<textarea id="reply-content" rows="1" class="form-control"></textarea>
 			</div>

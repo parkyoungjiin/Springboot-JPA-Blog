@@ -3,9 +3,14 @@ package com.cos.blog.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
+
+import jakarta.transaction.Transactional;
 //Integer = User테이블의 PK가 Integer이다.
 //-------JpaRepository 특징 ------------
 // CRUD의 함수를 대부분 갖고 있기에 extends를 통해 interface를 생성해주면 별도의 함수 생성 없이도 사용 가능하다.
@@ -19,6 +24,10 @@ import com.cos.blog.model.User;
 //Count
 public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 	
+	@Modifying
+    @Query(value = "INSERT INTO reply(userId, boardId, content, createDate) VALUES(?1, ?2, ?3, now())", nativeQuery = true)
+	//insert, update, delete 성공 시 return을 업데이트 된 행의 개수를 리턴한다.(ResultSet) -> 그렇기에 int로 리턴.
+    int mSave(int userId, int boardId, String content);
 }
 
 //JPA Naming 전략

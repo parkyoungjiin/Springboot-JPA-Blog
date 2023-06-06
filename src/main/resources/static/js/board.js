@@ -96,15 +96,15 @@ let index = {
     //---------replysave 함수(답글 작성 로직)-------------
     replysave:function(){
         let data = {
+			boardId: $("#boardId").val(),
+			userId: $("#userId").val(),
 			content: $("#reply-content").val()
-			
 		};
 		
-		let boardId = $("#boardId").val();
 		console.log(data)
 		$.ajax({
 			type: "POST",
-			url: `/api/board/${boardId}/reply`, //`` 백틱을 사용한 코드임. (문자열, 변수를 같이 사용할 수 있다.)
+			url: `/api/board/${data.boardId}/reply`, //`` 백틱을 사용한 코드임. (문자열, 변수를 같이 사용할 수 있다.)
 			//stringify : 자바스크립트 오브젝트를 JSON으로 변경.
 			data: JSON.stringify(data), //HTTP Body 데이터 -> MIME 타입 설정이 필요함.
 			//contentType: body 데이터가 어떤 타입인지 설정.
@@ -114,7 +114,7 @@ let index = {
 		}).done(function(resp){
 			alert("댓글작성이 완료되었습니다.");
 //			console.log(resp)
-			location.href = `/board/${boardId}`;
+			location.href = `/board/${data.boardId}`;
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 			
