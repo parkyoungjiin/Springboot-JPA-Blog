@@ -1,17 +1,18 @@
 let index = {
     init: function(){
-        $("#btn-save").on("click", ()=>{ //function을 사용하지 않는 이유 : this를 바인딩 하기 위함.
+        $("#btn-save").on("click", ()=>{ // save : 게시글 저장
             this.save();
         });
-        $("#btn-delete").on("click", ()=>{ //function을 사용하지 않는 이유 : this를 바인딩 하기 위함.
+        $("#btn-delete").on("click", ()=>{ // deleteById : 게시글 삭제
             this.deleteById();
         });
-        $("#btn-update").on("click", ()=>{ //function을 사용하지 않는 이유 : this를 바인딩 하기 위함.
+        $("#btn-update").on("click", ()=>{ // update : 게시글 수정 
             this.update();
         });
-        $("#btn-reply-save").on("click", ()=>{ //function을 사용하지 않는 이유 : this를 바인딩 하기 위함.
-            this.replysave();
+        $("#btn-reply-save").on("click", ()=>{ //replysave : 답글 작성
+            this.replySave();
         });
+   
     },
 //---------save 함수(글쓰기 로직)-------------
     save:function(){
@@ -94,7 +95,7 @@ let index = {
     },// 함수 끝
     
     //---------replysave 함수(답글 작성 로직)-------------
-    replysave:function(){
+    replySave:function(){
         let data = {
 			boardId: $("#boardId").val(),
 			userId: $("#userId").val(),
@@ -120,6 +121,27 @@ let index = {
 			
 		}); // ajax 통신을 이용해서 3개의 파라미터를 json으로 변경하여 insert 요청 
     },// 함수 끝
+    
+    //---------replyDelete 함수(답글 삭제 로직)-------------
+    replyDelete:function(boardId, replyId){
+		
+		console.log(boardId, replyId)
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`, //`` 백틱을 사용한 코드임. (문자열, 변수를 같이 사용할 수 있다.)
+			//dataType : 응답 데이터를 어떻게 받을 지 설정.
+			dataType: "json" // 응답 
+		}).done(function(resp){
+			alert("댓글작성이 완료되었습니다.");
+			console.log(resp)
+			location.href = `/board/${boardId}`;
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+			
+		}); // ajax 통신을 이용해서 3개의 파라미터를 json으로 변경하여 insert 요청 
+    },// 함수 끝
+    
+ 
 }//index 끝
 
 index.init();

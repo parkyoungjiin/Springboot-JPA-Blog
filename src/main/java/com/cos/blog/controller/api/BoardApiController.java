@@ -34,14 +34,14 @@ public class BoardApiController {
 	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail principal){
 		System.out.println("UserApiController : save 호출됨.");
 		boardService.글쓰기(board, principal.getUser());
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
 	//글삭제 작업
 	@DeleteMapping("/api/board/{id}")
 	public ResponseDto<Integer> deleteById(@PathVariable int id){
 		boardService.삭제하기(id);
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);  // 리턴값 1 : 정상
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);  // 리턴값 1 : 정상
 
 	}
 	
@@ -49,7 +49,7 @@ public class BoardApiController {
 	@PutMapping("/api/board/{id}")
 	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
 		boardService.글수정하기(id, board);
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);  // 리턴값 1 : 정상
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);  // 리턴값 1 : 정상
 		
 	}
 	
@@ -60,10 +60,16 @@ public class BoardApiController {
 	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto){
 		
 		boardService.댓글쓰기(replySaveRequestDto);
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);  // 리턴값 1 : 정상
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);  // 리턴값 1 : 정상
 		
 	}
 	
+	// 댓글 삭제 작업
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replyDelete(@PathVariable int replyId){
+		boardService.댓글삭제(replyId);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+	}
 	
 //	--로그인 작업(기존 방식, 시큐리티 사용 전 방식임.)--
 //	@PostMapping("/api/user/login")
@@ -75,7 +81,7 @@ public class BoardApiController {
 //			//세션 저장
 //			session.setAttribute("principal", principal);
 //		}
-//		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+//		return new ResponseDto<Integer>(HttpStatus.OK.value());
 //	}
 	
 	

@@ -9,14 +9,14 @@
 		<div class="form-group">
 			<label for="username">Username</label> <input type="text" class="form-control" placeholder="Enter Username" id="username" value="${principal.user.username }" readonly>
 		</div>
-		<c:if test="${not empty principal.user.oauth }">
+		<c:if test="${empty principal.user.oauth }">
 			<div class="form-group">
 				<label for="pwd">Password</label> <input type="password" class="form-control" placeholder="Enter password" id="password" >
 			</div>
-			<div class="form-group">
-				<label for="email">Email</label> <input type="email" class="form-control" placeholder="Enter email" id="email" value="${principal.user.email }">
-			</div>
 		</c:if>
+			<div class="form-group">
+				<label for="email">Email</label> <input type="email" class="form-control" placeholder="Enter email" id="email" value="${principal.user.email }" readonly> 
+			</div>
 		
 		<div class="form-group form-check">
 			<label class="form-check-label"> <input class="form-check-input" type="checkbox"> Remember me

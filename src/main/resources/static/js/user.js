@@ -32,9 +32,17 @@ let index = {
 			//dataType : 응답 데이터를 어떻게 받을 지 설정.
 			dataType: "json" // 응답 
 		}).done(function(resp){
-			alert("회원가입 완료되었습니다.");
-//			console.log(resp)
-			location.href = "/";
+			if(resp.status == 500){
+				alert("회원가입에 실패했습니다.");
+				console.log(resp)
+				
+			}else{
+				alert("회원가입에 성공했습니다.");
+				console.log(resp)
+				location.href = "/";
+
+			}
+			
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 			

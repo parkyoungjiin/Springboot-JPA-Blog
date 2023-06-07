@@ -37,7 +37,7 @@ public class UserApiController {
 		System.out.println("UserApiController : save 호출됨.");
 		
 		int result = userService.회원가입(user);//실제로 DB에 insert하고, 아래 return 하면 된다.
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
 	//회원정보 수정
@@ -50,7 +50,7 @@ public class UserApiController {
 		//세션 등록 (authentication객체를 생성함.) - 로그인 처리
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 
 	

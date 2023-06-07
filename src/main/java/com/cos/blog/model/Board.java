@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -53,8 +54,8 @@ public class Board {
 	//JPA에서는 객체를 저장할 수 있다. @JoinColumn(name="컬럼명") 으로 어노ㅔ이션을 해줘야 함.
 	//원리 : FK로 생성된다. (연관관계 맺어서 생성)
 	
-	@OneToMany(mappedBy = "board",fetch = FetchType.EAGER) // JoinColumn 필요 X : Board에는 FK가 필요없음.
-	@JsonIgnoreProperties({"board"})
+	@OneToMany(mappedBy = "board",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // JoinColumn 필요 X : Board에는 FK가 필요없음.
+	@JsonIgnoreProperties({"board"}) // 무한참조 방지를 위해 설정.
 	@OrderBy("id desc")
 	//OneToMany는 select할 때 reply도 Join을 해야 한다는 의미로 작성함.
 	//mappedBy는 연관관계의 주인이 아니다. (FK가 아니기에, 컬럼을 만들지말라는 의미다.)
