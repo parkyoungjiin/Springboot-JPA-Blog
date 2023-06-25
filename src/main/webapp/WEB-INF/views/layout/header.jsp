@@ -6,7 +6,9 @@
 	<sec:authentication property="principal" var="principal"/>
 </sec:authorize>
 
-
+<c:if test="${not empty principal }">
+	로그인 성공
+</c:if>
 
 <!DOCTYPE html>
 <html lang="en">

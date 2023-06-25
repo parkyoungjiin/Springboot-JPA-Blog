@@ -13,11 +13,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 // 인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용
 // 그냥 주소가 / 이면 index.jsp 허용.
@@ -151,7 +153,7 @@ public class UserController {
 						String.class
 				);	
 				
-				System.out.println(response2.getBody());
+				System.out.println("response2.getBody() : " + response2.getBody());
 				
 				//ObjectMapper를 통해 json 응답 데이터를 파싱함(kakaoProfile에). 
 				ObjectMapper objectMapper2 = new ObjectMapper();
@@ -180,23 +182,23 @@ public class UserController {
 						.oauth("kakao")
 						.build();
 				
-				// 이미 가입한 사람이 인지 여부 판별 필요.
-//				User originUser = userService.회원찾기(kakaoUser.getUsername());
-//				if(originUser.getUsername() == null) {
-//					System.out.println("회원가입 대상자입니다.");
-//					userService.회원가입(kakaoUser);
-//				}
+//				 이미 가입한 사람이 인지 여부 판별 필요.
+				User originUser = userService.회원찾기(kakaoUser.getUsername());
+				System.out.println("originUser:" + originUser.toString());
+				if(originUser.getUsername() == null) {
+					System.out.println("기존 회원이 아니기에, 자동 회원가입을 진행합니다.");
+					userService.회원가입(kakaoUser);
+				}
 				
-				System.out.println("기존회원이므로 자동 로그인을 진행합니다.");
+				System.out.println("자동 로그인을 진행합니다.");
 				System.out.println("kakaoUser확인 : " + kakaoUser);
+				
 				// 로그인 처리
-				
 				Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
-				System.out.println("authentication 확인 : " + authentication);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
+				System.out.println(authentication);
 				
-				
-		return "redirect:/";
+				return "redirect:/";
 	}
 	
 	@GetMapping("/user/testVersion")

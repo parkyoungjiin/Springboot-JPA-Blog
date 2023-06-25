@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cos.blog.config.auth.PrincipalDetail;
+import com.cos.blog.config.auth.PrincipalDetails;
 import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.dto.ResponseDto;
 import com.cos.blog.model.Board;
@@ -31,7 +31,7 @@ public class BoardApiController {
 	
 	//글쓰기 작업
 	@PostMapping("/api/board")
-	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail principal){
+	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetails principal){
 		System.out.println("UserApiController : save 호출됨.");
 		boardService.글쓰기(board, principal.getUser());
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);

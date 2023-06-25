@@ -25,19 +25,17 @@ public class UserService {
 	
 	@Transactional
 	public int 회원가입(User user) {
+		String rawPassword = user.getPassword(); // 1234 원문
+		String encPassword = encoder.encode(rawPassword); // 해쉬
+		user.setPassword(encPassword);
+		user.setRole(RoleType.USER);
 		try {
-			//role을 eunm을 통해 값 지정.
-			user.setRole(RoleType.USER);
-			// 패스워드 암호화
-			user.setPassword(encoder.encode(user.getPassword()));
-			// 회원가입 진행
 			userRepository.save(user);
 			return 1;
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("UserService : 회원가입() :" + e.getMessage());
+			return -1;
 		}
-		return -1;
+		
 	}
 	
 	@Transactional(readOnly = true)
