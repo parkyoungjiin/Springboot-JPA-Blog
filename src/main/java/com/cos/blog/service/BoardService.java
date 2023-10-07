@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
 import com.cos.blog.model.Reply;
+import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
 import com.cos.blog.repository.UserRepository;
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
+
+import jakarta.persistence.EntityManager;
 
 
 //스프링이 컴포넌트 스캔을 통해 BEAN에 등록해준다.(IOC를 수행함.)
@@ -33,6 +36,9 @@ public class BoardService {
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private EntityManager em;
 	
 	@Transactional
 	public void 글쓰기(Board board, User user) {
@@ -102,6 +108,29 @@ public class BoardService {
 	@Transactional
 	public void 댓글삭제(int replyId) {
 		replyRepository.deleteById(replyId);
+		
+	}
+	@Transactional
+	public void 즉시로딩() {
+		Board board = new Board();
+		board.setTitle("testTitle");
+		board.setContent("test");
+		board.setCount(1);
+		
+		em.persist(board);
+		
+		User user = new User();
+		user.setUsername("testMan");
+		user.setEmail("test@test.com");
+		user.setPassword("test1234");
+		user.setOauth("kakao");
+		user.setRole(RoleType.USER);
+		em.persist(user);
+		
+		em.flush();
+		em.clear();
+		
+		Board findBoard = em.find(Board.class, board.getTitle());
 		
 	}
 }

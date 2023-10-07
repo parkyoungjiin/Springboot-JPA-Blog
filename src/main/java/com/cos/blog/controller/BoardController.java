@@ -17,11 +17,15 @@ import com.cos.blog.model.Board;
 import com.cos.blog.model.User;
 import com.cos.blog.service.BoardService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+
 @Controller
 public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+
 	
 	@GetMapping({"/",""})
 	//PageableDefault 선언
@@ -50,6 +54,11 @@ public class BoardController {
 	public String updateForm(@PathVariable int id, Model model) {
 		model.addAttribute("board", boardService.글상세보기(id));
 		return "board/updateForm";
+	}
+	
+	@GetMapping("/test/postTest")
+	public void testForm() {
+		boardService.즉시로딩();
 	}
 	
 
